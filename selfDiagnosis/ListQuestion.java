@@ -44,9 +44,9 @@ public class ListQuestion {
         questionList.add(new Ques(q4,op4));
 
         String q5 = "How severe are your symptoms?";
-        String[] op5 = {"Symptoms have little to no impact\n I am able to do normal activities like exercising.",
-        "Symptoms are having some impact\n I can only do some daily activities like cleaning and making food.",
-        "Symptoms are having a major impact\n I can only do what's necessary such as using the bathroom or eating."
+        String[] op5 = {"Symptoms have little to no impact\t I am able to do normal activities like exercising.",
+        "Symptoms are having some impact\t I can only do some daily activities like cleaning and making food.",
+        "Symptoms are having a major impact\t I can only do what's necessary such as using the bathroom or eating."
         };
         questionList.add(new Ques(q5,op5));
 
@@ -81,9 +81,10 @@ public class ListQuestion {
     }
     public void begin(){
         Scanner keyboardInput = new Scanner(System.in);
-        int count = 0;
+        ArrayList usrAnsList = new ArrayList<String>();
         //display question from questionList
         for (int question = 0; question < questionList.size(); question++){
+            System.out.println("Question " + (question+1) + " :");
             System.out.println(questionList.get(question).getQuestion());
             //Number of options (depending on the question, the value varies from 2 -> 10.
             int numOps = questionList.get(question).getChoices().size();
@@ -94,7 +95,8 @@ public class ListQuestion {
             }
             //User answer:
             int usrAns = keyboardInput.nextInt();
-//            ArrayList<String> choiceSet = questionList.get(question).getChoices();
+            //List of user answers.
+            usrAnsList.add(questionList.get(question).getChoices().get(usrAns-1));
             if (question == 0 && usrAns == 1) {
                 System.out.println("Contact the nearby hospital immediately.");
                 break;
@@ -103,7 +105,13 @@ public class ListQuestion {
                 System.out.println("This tool is only intended for people who are at least 18 years old.");
                 break;
             }
+
         }
         keyboardInput.close();
+        System.out.println("End Self-Diagnose Test");
+        System.out.println("Here are your options: ");
+        for (int i = 1; i < usrAnsList.size(); i++){
+            System.out.println("\t" + usrAnsList.get(i));
+        }
     }
 }
