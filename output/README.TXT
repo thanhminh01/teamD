@@ -34,5 +34,6 @@ class name in the manifest Main-Class element.
 ========================
 NOTE BY MINH: VERSION 1.0
 
+Self diagnosis gives you points based on your choices. The higher the points the more likely you are affected by covid-19. Not fully implemented.
 NO AREA REGULATIONS
-NO DATABASE IMPLEMENTED
+NO DATABASE 
