@@ -31,7 +31,7 @@ After that, the following steps must be followed:
 1. 
   a)Go to UserLogin.java
   
-  b)Look at line 102 and 103, change the user and password to your local host counterparts (you will have these AFTER you have setup your MySQL Community Server).
+  b)Look at line 102 and 103, change the user and password to your local host counterparts (you will have these AFTER you setup your MySQL Community Server).
   
 2. 
   a) Go to ChangePassword.java
