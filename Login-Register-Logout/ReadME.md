@@ -1,5 +1,6 @@
 Requirement: 
 MySQL Community Server + MySQL workbench
+
 MySQL Connector Java = Version 8.0.13
 
 Before compiling the .java files, go to MySQL Workbench and compile these lines of codes: 
