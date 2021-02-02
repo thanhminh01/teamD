@@ -1,4 +1,4 @@
-package com.company.UserLoginLogout;
+package com.company;
 
 /**
  * @author: Tran Hoc Phuc
@@ -28,6 +28,13 @@ public class ChangePassword extends JFrame {
     private JPanel contentPane;
     private JTextField textField;
     private JLabel lblEnterNewPassword;
+
+    static final String JDBC_DRIVER = "org.h2.Driver";
+    static final String DB_URL = "jdbc:h2:~/test1;IFEXISTS=TRUE";
+
+    //  Database credentials
+    static final String USER = "admin";
+    static final String PASS = "administrator";
 
     /**
      * Launch the application.
@@ -71,18 +78,17 @@ public class ChangePassword extends JFrame {
                     System.out.println("update password name " + name);
                     System.out.println("update password");
 
-                    Connection con = (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/user_demo",
-                            "root", "migoi");
+                    Class.forName(JDBC_DRIVER);
+                    Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
 
-                    PreparedStatement st = (PreparedStatement) con
-                            .prepareStatement("Update user_list set password=? where name=?");
+                    PreparedStatement st = (PreparedStatement) conn.prepareStatement("Update registration set password=? where username=?");
 
                     st.setString(1, pstr);
                     st.setString(2, name);
                     st.executeUpdate();
                     JOptionPane.showMessageDialog(btnSearch, "Password has been successfully changed");
 
-                } catch (SQLException sqlException) {
+                } catch (SQLException | ClassNotFoundException sqlException) {
                     sqlException.printStackTrace();
                 }
 

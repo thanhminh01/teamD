@@ -1,5 +1,4 @@
 package com.company;
-
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Font;
@@ -16,7 +15,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-public class UserLogin extends JFrame {
+public class UserRegistration extends JFrame{
+    private static final long serialVersionUID = 1L;
+    private JTextField textField;
+    private JPasswordField passwordField;
+    private JButton btnNewButton;
+    private JButton cancelButton;
+    private JLabel label;
+    private JPanel contentPane;
+
     static final String JDBC_DRIVER = "org.h2.Driver";
     static final String DB_URL = "jdbc:h2:~/test1;IFEXISTS=TRUE";
 
@@ -24,22 +31,11 @@ public class UserLogin extends JFrame {
     static final String USER = "admin";
     static final String PASS = "administrator";
 
-    private static final long serialVersionUID = 1L;
-    private JTextField textField;
-    private JPasswordField passwordField;
-    private JButton btnNewButton;
-    private JButton regButton;
-    private JLabel label;
-    private JPanel contentPane;
-    /**
-     * Launch the application.
-     */
     public static void main(String[] args) {
-        h2Database.createTable();
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    UserLogin frame = new UserLogin();
+                    UserRegistration frame = new UserRegistration();
                     frame.setVisible(true);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -47,11 +43,7 @@ public class UserLogin extends JFrame {
             }
         });
     }
-
-    /**
-     * Create the frame.
-     */
-    public UserLogin() {
+    public UserRegistration() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(450, 190, 1014, 597);
         setResizable(false);
@@ -60,7 +52,7 @@ public class UserLogin extends JFrame {
         setContentPane(contentPane);
         contentPane.setLayout(null);
 
-        JLabel lblNewLabel = new JLabel("Login");
+        JLabel lblNewLabel = new JLabel("User Registration");
         lblNewLabel.setForeground(Color.BLACK);
         lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 46));
         lblNewLabel.setBounds(423, 13, 273, 93);
@@ -91,42 +83,46 @@ public class UserLogin extends JFrame {
         lblPassword.setBounds(250, 286, 193, 52);
         contentPane.add(lblPassword);
 
-        regButton = new JButton("Register");
-        regButton.setFont(new Font("Tahoma", Font.PLAIN, 26));
-        regButton.setBounds(322, 392, 162, 73);
-        regButton.addActionListener(new ActionListener() {
+        cancelButton = new JButton("Cancel");
+        cancelButton.setFont(new Font("Tahoma", Font.PLAIN, 26));
+        cancelButton.setBounds(345, 392, 162, 73);
+        cancelButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                UserRegistration newUser = new UserRegistration();
-                newUser.setTitle("Registration");
-                newUser.setVisible(true);
+                UserLogin login = new UserLogin();
+                login.setTitle("Login");
+                login.setVisible(true);
             }
         });
 
-        btnNewButton = new JButton("Login");
+        btnNewButton = new JButton("Register");
         btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 26));
         btnNewButton.setBounds(545, 392, 162, 73);
         btnNewButton.addActionListener(new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 String userName = textField.getText();
                 String password = passwordField.getText();
                 try {
                     Class.forName(JDBC_DRIVER);
                     Connection conn = DriverManager.getConnection(DB_URL,USER,PASS);
-                    PreparedStatement st = (PreparedStatement) conn
-                            .prepareStatement("Select username, password from registration where username=? and password=?");
 
+                    PreparedStatement st = (PreparedStatement) conn
+                            .prepareStatement("Select username from registration where username=?");
                     st.setString(1, userName);
-                    st.setString(2, password);
                     ResultSet rs = st.executeQuery();
                     if (rs.next()) {
-                        dispose();
-                        UserHome ah = new UserHome(userName);
-                        ah.setTitle("Welcome");
-                        ah.setVisible(true);
-                        JOptionPane.showMessageDialog(btnNewButton, "You have successfully logged in");
-                    } else {
-                        JOptionPane.showMessageDialog(btnNewButton, "Wrong Username & Password");
+                        JOptionPane.showMessageDialog(btnNewButton, "Username existed, please choose another one.");
+                    }else {
+                        PreparedStatement stmt = conn.prepareStatement("INSERT INTO Registration " + "VALUES (?, ?, 'yolo')");
+                        stmt.setString(1, userName);
+                        stmt.setString(2, password);
+                        stmt.executeUpdate();
+
+                        stmt.close();
+                        conn.close();
                     }
+                    System.out.println("New user registered");
+
                 } catch (SQLException | ClassNotFoundException sqlException) {
                     sqlException.printStackTrace();
                 }
@@ -134,10 +130,12 @@ public class UserLogin extends JFrame {
         });
 
         contentPane.add(btnNewButton);
-        contentPane.add(regButton);
+        contentPane.add(cancelButton);
 
         label = new JLabel("");
         label.setBounds(0, 0, 1008, 562);
         contentPane.add(label);
+
     }
+
 }

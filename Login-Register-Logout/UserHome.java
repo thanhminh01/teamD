@@ -1,4 +1,4 @@
-package com.company.UserLoginLogout;
+package com.company;
 /**
  * @author: Tran Hoc Phuc
  * @function: Draft homepage (included change password and logout)
