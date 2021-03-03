@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Ant-Version: Apache Ant 1.10.8
+Created-By: 15.0.2+7-27 (Oracle Corporation)
+Class-Path: lib/AbsoluteLayout.jar lib/annotations-20.1.0.jar lib/json
+ -20201115.jar lib/h2-1.4.200.jar
+X-COMMENT: Main-Class will be added automatically by build
+Main-Class: phucTung.UserLogin
+
